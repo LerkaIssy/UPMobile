@@ -17,17 +17,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.up.R
 import kotlinx.coroutines.delay
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.vectorResource
 
 @SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
-fun SplashScreen(navController: NavHostController) {
+fun SplashScreen(navHost: NavHostController) {
     val scale = remember {
         Animatable(0.5f)
     } //объект, используемый для управления масштабированием логотипа
@@ -46,12 +46,12 @@ fun SplashScreen(navController: NavHostController) {
         delay(1500L) //Пауза на 1.5 секунды после завершения анимации
 
         //После паузы, переходит на экран входа в систему (SIGNIN), удаляя экран заставки из стека навигации
-        // navController.navigate(NavigationRoutes.SIGNIN) {
-        //   popUpTo(NavigationRoutes.SPLASH) {
-        //     inclusive = true
+        //navHost.navigate() {
+          //  popUpTo(NavigationRoutes.SPLASH) {
+            //    inclusive = true
+            //}
         //}
     }
-
 
     //Получает размеры экрана
     BoxWithConstraints {
@@ -63,8 +63,8 @@ fun SplashScreen(navController: NavHostController) {
                 .padding(20.dp)
         ) {
             Image(
-                bitmap = ImageBitmap.imageResource(R.drawable.logo),
-                contentDescription = "Зимний лес",
+                painter = painterResource(id = R.drawable.logo),
+                contentDescription = "Logo",
                 modifier = Modifier.scale(scale.value)
             )
         }
