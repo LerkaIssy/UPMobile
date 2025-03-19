@@ -48,7 +48,7 @@ fun SplashScreen(navHost: NavHostController) {
         delay(1500L) //Пауза на 1.5 секунды после завершения анимации
 
         //После паузы, переходит на экран входа в систему (SIGNIN), удаляя экран заставки из стека навигации
-        //navHost.navigate() {
+        navHost.navigate("SignIn") //{
           //  popUpTo(NavigationRoutes.SPLASH) {
             //    inclusive = true
             //}
