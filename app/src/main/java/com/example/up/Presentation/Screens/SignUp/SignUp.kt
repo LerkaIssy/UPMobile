@@ -245,7 +245,7 @@ fun SignUp(navHost: NavHostController,signUpViewModel: SignUpScreenVM = viewMode
             modifier = Modifier.padding(10.dp).fillMaxWidth(),
             contentPadding = PaddingValues(20.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = colorResource(R.color.accent), disabledContainerColor = colorResource(R.color.disable)
+                containerColor = colorResource(R.color.accent), disabledContainerColor = colorResource(R.color.disable), disabledContentColor = colorResource(R.color.white)
             )
         ){ Text("Зарегистрироваться", fontSize = 17.sp) }
 

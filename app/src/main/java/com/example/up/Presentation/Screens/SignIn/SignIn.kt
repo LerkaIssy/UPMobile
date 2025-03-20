@@ -187,7 +187,7 @@ fun SignIn(navHost: NavHostController,signInScreenVM: SignInScreenVM = viewModel
             modifier = Modifier.padding(10.dp).fillMaxWidth(),
             contentPadding = PaddingValues(20.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = colorResource(R.color.accent), disabledContainerColor = colorResource(R.color.disable))
+                containerColor = colorResource(R.color.accent), disabledContainerColor = colorResource(R.color.disable), disabledContentColor = colorResource(R.color.white))
         ){ Text("Войти", fontSize = 17.sp) }
 
 
