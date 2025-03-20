@@ -1,4 +1,9 @@
 package com.example.up.Presentation.Screens.SignIn
 
-class SignInScreenVM {
+
+import androidx.lifecycle.ViewModel
+
+
+class SignInScreenVM : ViewModel() {
+
 }
