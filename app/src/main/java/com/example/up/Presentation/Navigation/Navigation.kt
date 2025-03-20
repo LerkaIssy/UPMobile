@@ -5,6 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.up.Presentation.Screens.SignIn.SignIn
+import com.example.up.Presentation.Screens.SignUp.SignUp
 import com.example.up.Presentation.Screens.SplashScreen.SplashScreen
 
 
@@ -22,6 +23,9 @@ fun Navigation()
         }
         composable("SignIn") {
             SignIn(navController)
+        }
+        composable("SignUp") {
+            SignUp(navController)
         }
     }
 }

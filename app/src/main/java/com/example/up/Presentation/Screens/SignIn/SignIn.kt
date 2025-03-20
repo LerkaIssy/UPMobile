@@ -54,9 +54,11 @@ fun SignIn(navHost: NavHostController)
 {
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
+    val focusManager = LocalFocusManager.current
+    var passwordVisibility by remember { mutableStateOf(false) }
 
     Row(){
-        IconButton(onClick = {  },
+        IconButton(onClick = { navHost.navigate("SignUp") },
             modifier = Modifier
                 .padding(15.dp,50.dp).size(50.dp),
                 colors = IconButtonDefaults.iconButtonColors(containerColor = colorResource(R.color.veryLight))) {
@@ -81,14 +83,13 @@ fun SignIn(navHost: NavHostController)
         Text(text="Заполните Свои Данные", fontWeight = FontWeight.W100, fontSize = 24.sp)
         Spacer(Modifier.height(30.dp))
         Text(text="Email", modifier = Modifier.fillMaxWidth(1f).padding(10.dp, 0.dp,0.dp,10.dp), fontWeight = FontWeight.W400, textAlign=TextAlign.Left, fontSize = 20.sp)
-        val focusManager = LocalFocusManager.current
-        var passwordVisibility by remember { mutableStateOf(false) }
+
         TextField(
             modifier = Modifier.padding(10.dp).fillMaxWidth(),
-            value = password.value,
+            value = email.value,
             textStyle = TextStyle(fontSize=14.sp),
 
-            onValueChange = {newText -> password.value = newText},
+            onValueChange = {newText -> email.value = newText},
             colors = TextFieldDefaults.colors(
                 unfocusedContainerColor = colorResource(R.color.veryLight),
                 unfocusedTextColor = Color.Black,
@@ -100,7 +101,7 @@ fun SignIn(navHost: NavHostController)
             ),
 
             keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Password,
+                keyboardType = KeyboardType.Email,
                 imeAction = ImeAction.Next
             ),
             keyboardActions = KeyboardActions(
@@ -145,7 +146,7 @@ fun SignIn(navHost: NavHostController)
             ),
 
             keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Email,
+                keyboardType = KeyboardType.Password,
                 imeAction = ImeAction.Next
             ),
             keyboardActions = KeyboardActions(
@@ -167,7 +168,7 @@ fun SignIn(navHost: NavHostController)
         //Spacer(Modifier.height(155.dp))
         Row(horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
             Text("Вы впервые?", fontSize = 16.sp, fontWeight = FontWeight.W200)
-            TextButton({}) {
+            TextButton({navHost.navigate("SignUp")}) {
                 Text("Создать", fontSize = 16.sp, color = Color.Black)
             }
         }

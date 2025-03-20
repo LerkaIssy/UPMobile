@@ -58,7 +58,7 @@ fun SignUp(navHost: NavHostController) {
     val focusManager = LocalFocusManager.current
     var passwordVisibility by remember { mutableStateOf(false) }
     Row(){
-        IconButton(onClick = {  },
+        IconButton(onClick = { navHost.navigate("SignIn") },
             modifier = Modifier
                 .padding(15.dp,50.dp).size(50.dp),
             colors = IconButtonDefaults.iconButtonColors(containerColor = colorResource(R.color.veryLight))) {
@@ -130,7 +130,7 @@ fun SignUp(navHost: NavHostController) {
             ),
 
             keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Password,
+                keyboardType = KeyboardType.Email,
                 imeAction = ImeAction.Next
             ),
             keyboardActions = KeyboardActions(
@@ -175,7 +175,7 @@ fun SignUp(navHost: NavHostController) {
             ),
 
             keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Email,
+                keyboardType = KeyboardType.Password,
                 imeAction = ImeAction.Next
             ),
             keyboardActions = KeyboardActions(
@@ -184,8 +184,27 @@ fun SignUp(navHost: NavHostController) {
             shape = RoundedCornerShape(15.dp),
 
             )
-        Text(text="Восстановить", modifier = Modifier.fillMaxWidth(1f).padding(0.dp, 0.dp,20.dp,0.dp), fontWeight = FontWeight.W200, textAlign= TextAlign.Right, fontSize = 12.sp)
+        Row(horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
 
+            IconButton(
+                onClick = {  },
+
+                colors = IconButtonDefaults.iconButtonColors(containerColor = colorResource(R.color.veryLight))
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.check),
+                    contentDescription = "Назад", modifier = Modifier.size(80.dp),
+                    tint = Color.DarkGray
+                )
+            }
+            Text(
+                text = "Восстановить",
+                modifier = Modifier.fillMaxWidth(1f).padding(0.dp, 0.dp, 20.dp, 0.dp),
+                fontWeight = FontWeight.W200,
+                textAlign = TextAlign.Right,
+                fontSize = 12.sp
+            )
+        }
         Spacer(Modifier.height(15.dp))
         Button(onClick = {},
             shape = RoundedCornerShape(15.dp),  // округлая кнопка
@@ -194,11 +213,11 @@ fun SignUp(navHost: NavHostController) {
             colors = ButtonDefaults.buttonColors(
                 containerColor = colorResource(R.color.accent)
             )
-        ){ Text("Войти", fontSize = 17.sp) }
+        ){ Text("Зарегистрироваться", fontSize = 17.sp) }
         //Spacer(Modifier.height(155.dp))
         Row(horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
             Text("Есть аккаунт?", fontSize = 16.sp, fontWeight = FontWeight.W200)
-            TextButton({}) {
+            TextButton(onClick = {navHost.navigate("SignIn")}) {
                 Text("Войти", fontSize = 16.sp, color = Color.Black)
             }
         }
