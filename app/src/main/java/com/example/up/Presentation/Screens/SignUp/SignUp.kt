@@ -1,5 +1,6 @@
 package com.example.up.Presentation.Screens.SignUp
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -41,6 +42,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
@@ -49,17 +52,25 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.up.Domain.utils.isEmailValid
 import com.example.up.Presentation.Screens.SignIn.SignIn
 import com.example.up.R
 
+
+/**
+ * composable-функция SignUp для экрана регистрации пользователя
+ */
 @Composable
-fun SignUp(navHost: NavHostController,sigUpViewModel: SignUpScreenVM = viewModel()) {
+// navHost: NavHostController:  Объект для навигации между экранами.
+// signUpViewModel: SignUpScreenVM = viewModel() :  ViewModel, управляющий состоянием и логикой экрана регистрации пользователя.
+fun SignUp(navHost: NavHostController,signUpViewModel: SignUpScreenVM = viewModel()) {
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
     val name = remember { mutableStateOf("") }
     val focusManager = LocalFocusManager.current
     var passwordVisibility by remember { mutableStateOf(false) }
     var approve by remember { mutableStateOf(false) }
+    var disable by remember { mutableStateOf(false) }
     Row(){
         IconButton(onClick = { navHost.navigate("SignIn") },
             modifier = Modifier
@@ -148,22 +159,28 @@ fun SignUp(navHost: NavHostController,sigUpViewModel: SignUpScreenVM = viewModel
         TextField(
             modifier = Modifier.padding(10.dp).fillMaxWidth(),
             value = password.value,
-            textStyle = TextStyle(fontSize=14.sp),
-            onValueChange = {newText -> password.value = newText},
-            trailingIcon = {
+            visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
+
+            textStyle = TextStyle(fontSize = 14.sp),
+            onValueChange = { newText -> password.value = newText },
+           trailingIcon = {
                 IconButton(onClick = {
                     passwordVisibility = !passwordVisibility
+                    Log.d("PasswordVisibility", "New visibility state: $passwordVisibility")
                 }) {
-                    if (passwordVisibility) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.eyeopen),
-                            contentDescription = ""
-                        )
-                    } else {
-                        Icon(
-                            painter = painterResource(id = R.drawable.eyeclose),
-                            contentDescription = ""
-                        )
+                    when (passwordVisibility) {
+                        true -> {
+                            Icon(
+                                painter = painterResource(id = R.drawable.eyeopen),
+                                contentDescription = ""
+                            )
+                        }
+                        false -> {
+                            Icon(
+                                painter = painterResource(id = R.drawable.eyeclose),
+                                contentDescription = ""
+                            )
+                        }
                     }
                 }
             },
@@ -210,23 +227,39 @@ fun SignUp(navHost: NavHostController,sigUpViewModel: SignUpScreenVM = viewModel
                 fontSize = 16.sp
             )
         }
+        if(email.value.isEmailValid() && password.value.isNotEmpty() &&name.value.isNotEmpty() &&approve)
+        {
+            disable=true
+        }
+        else{disable=false}
         Spacer(Modifier.height(15.dp))
-        Button(onClick = {},
-            shape = RoundedCornerShape(15.dp),  // округлая кнопка
+        Button(onClick = {
+            if(email.value.isEmailValid() && password.value.isNotEmpty() &&name.value.isNotEmpty() &&approve)
+            {
+                signUpViewModel.onSignUpEmail(email.value,password.value)
+                navHost.navigate("SignIn")
+            }
+        },
+            shape = RoundedCornerShape(15.dp),
+            enabled = disable,
             modifier = Modifier.padding(10.dp).fillMaxWidth(),
             contentPadding = PaddingValues(20.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = colorResource(R.color.accent)
+                containerColor = colorResource(R.color.accent), disabledContainerColor = colorResource(R.color.disable)
             )
         ){ Text("Зарегистрироваться", fontSize = 17.sp) }
-        //Spacer(Modifier.height(80.dp))
-        Row(horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+
+
+    }
+    Column(modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Bottom) {
+        Row(
+            modifier = Modifier.fillMaxWidth()            .padding(0.dp, 0.dp, 0.dp, 40.dp),
+            horizontalArrangement = Arrangement.Center  , verticalAlignment = Alignment.CenterVertically  ) {
             Text("Есть аккаунт?", fontSize = 16.sp, fontWeight = FontWeight.W200)
             TextButton(onClick = {navHost.navigate("SignIn")}) {
                 Text("Войти", fontSize = 16.sp, color = Color.Black)
-            }
-        }
-
+            } }
     }
 }
 @Preview(locale = "es")

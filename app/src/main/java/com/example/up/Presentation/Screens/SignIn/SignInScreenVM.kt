@@ -9,8 +9,14 @@ import io.github.jan.supabase.auth.providers.builtin.Email
 import kotlinx.coroutines.launch
 
 
+/**
+ * Этот код определяет класс SignInScreenVM на Kotlin, использующей архитектуру MVVM (Model-View-ViewModel).
+ * Он управляет состоянием пользовательского интерфейса и результатом операции входа пользователя
+ * */
+
 class SignInScreenVM : ViewModel() {
 
+    // Основная функция, которая обрабатывает процесс входа в систему пользователем
     fun onSignInEmailPassword(emailUser: String, passwordUser: String) {
         viewModelScope.launch {
             try {

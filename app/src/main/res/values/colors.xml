@@ -10,5 +10,6 @@
     <color name="accent">#FF48B2E7</color>
     <color name="subTextLight">#FFD8D8D8</color>
     <color name="veryLight">#FFF7F7F9</color>
+    <color name="disable">#FF2B6B8B</color>
 
 </resources>

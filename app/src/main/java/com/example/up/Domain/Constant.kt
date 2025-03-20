@@ -5,6 +5,10 @@ import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.storage.Storage
 
+/**
+ * Cинглтон-объект Constant, содержащий предварительно настроенного клиента Supabase
+ * */
+
 object Constant {
     val supabase = createSupabaseClient(
         supabaseUrl = "https://qjpjlktnpxccvfxvdanp.supabase.co",

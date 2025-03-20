@@ -27,14 +27,20 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 
+
+/**
+ * Экран заставки (splash screen) с анимированным логотипом перед переходом на экран входа в систему
+ * */
+
 @SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
+// navHost: NavHostController:  Объект для навигации между экранами.
 fun SplashScreen(navHost: NavHostController) {
     val scale = remember {
         Animatable(0.5f)
     } //объект, используемый для управления масштабированием логотипа
 
-    //Запускает асинхронный блок кода, который выполняется один раз при композиции
+
     LaunchedEffect(key1 = true) {
         scale.animateTo(
             targetValue = 2f,
@@ -43,19 +49,14 @@ fun SplashScreen(navHost: NavHostController) {
                 easing = {
                     OvershootInterpolator(0.5f).getInterpolation(it)
                 })
-        )// Анимирует изменение значения scale от 0.5f до 2f в течение 1500 миллисекунд, используя OvershootInterpolator для эффекта перескока
+        )
+        delay(1500L)
 
-        delay(1500L) //Пауза на 1.5 секунды после завершения анимации
 
-        //После паузы, переходит на экран входа в систему (SIGNIN), удаляя экран заставки из стека навигации
-        navHost.navigate("SignIn") //{
-          //  popUpTo(NavigationRoutes.SPLASH) {
-            //    inclusive = true
-            //}
-        //}
+        navHost.navigate("SignIn")
     }
 
-    //Получает размеры экрана
+
     BoxWithConstraints {
         Box(
             contentAlignment = Alignment.Center,

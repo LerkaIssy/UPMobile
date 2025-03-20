@@ -41,6 +41,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -49,14 +51,22 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.up.R
+import com.example.up.Domain.utils.isEmailValid
 
+
+/***
+ * composable-функция SignIn для экрана авторизации пользователя
+ */
 @Composable
+// navHost: NavHostController:  Объект для навигации между экранами.
+// signInScreenVM: signInScreenVM = viewModel() :  ViewModel, управляющий состоянием и логикой экрана входа.
 fun SignIn(navHost: NavHostController,signInScreenVM: SignInScreenVM = viewModel())
 {
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
     val focusManager = LocalFocusManager.current
     var passwordVisibility by remember { mutableStateOf(false) }
+    var disable by remember { mutableStateOf(false) }
 
     Row(){
         IconButton(onClick = { navHost.navigate("SignUp") },
@@ -117,6 +127,8 @@ fun SignIn(navHost: NavHostController,signInScreenVM: SignInScreenVM = viewModel
         TextField(
             modifier = Modifier.padding(10.dp).fillMaxWidth(),
             value = password.value,
+            visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
+
             textStyle = TextStyle(fontSize=14.sp),
             onValueChange = {newText -> password.value = newText},
             trailingIcon = {
@@ -157,25 +169,39 @@ fun SignIn(navHost: NavHostController,signInScreenVM: SignInScreenVM = viewModel
 
             )
         Text(text="Восстановить", modifier = Modifier.fillMaxWidth(1f).padding(0.dp, 0.dp,20.dp,0.dp), fontWeight = FontWeight.W200, textAlign=TextAlign.Right, fontSize = 12.sp)
-
+        if(email.value.isEmailValid() && password.value.isNotEmpty())
+        {
+            disable=true
+        }
+        else{disable=false}
         Spacer(Modifier.height(15.dp))
-        Button(onClick = {},
-            shape = RoundedCornerShape(15.dp),  // округлая кнопка
+        Button(onClick = {
+            if(email.value.isEmailValid() && password.value.isNotEmpty())
+            {
+                signInScreenVM.onSignInEmailPassword(email.value,password.value)
+                navHost.navigate("MainPage")
+            }
+        },
+            shape = RoundedCornerShape(15.dp),
+            enabled = disable,
             modifier = Modifier.padding(10.dp).fillMaxWidth(),
             contentPadding = PaddingValues(20.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = colorResource(R.color.accent))
+                containerColor = colorResource(R.color.accent), disabledContainerColor = colorResource(R.color.disable))
         ){ Text("Войти", fontSize = 17.sp) }
-        //Spacer(Modifier.height(155.dp))
-        Row(horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+
+
+        }
+    Column(modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Bottom) {
+        Row(
+        modifier = Modifier.fillMaxWidth()            .padding(0.dp, 0.dp, 0.dp, 40.dp),
+        horizontalArrangement = Arrangement.Center  , verticalAlignment = Alignment.CenterVertically  ) {
             Text("Вы впервые?", fontSize = 16.sp, fontWeight = FontWeight.W200)
             TextButton({navHost.navigate("SignUp")}) {
                 Text("Создать", fontSize = 16.sp, color = Color.Black)
-            }
-        }
-
-        }
-
+            } }
+    }
     }
 
 
