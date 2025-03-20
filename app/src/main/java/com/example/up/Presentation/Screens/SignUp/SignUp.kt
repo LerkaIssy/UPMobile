@@ -42,6 +42,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -57,6 +58,7 @@ fun SignUp(navHost: NavHostController) {
     val name = remember { mutableStateOf("") }
     val focusManager = LocalFocusManager.current
     var passwordVisibility by remember { mutableStateOf(false) }
+    var approve by remember { mutableStateOf(false) }
     Row(){
         IconButton(onClick = { navHost.navigate("SignIn") },
             modifier = Modifier
@@ -187,22 +189,24 @@ fun SignUp(navHost: NavHostController) {
         Row(horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
 
             IconButton(
-                onClick = {  },
+                onClick = { approve = !approve },
 
-                colors = IconButtonDefaults.iconButtonColors(containerColor = colorResource(R.color.veryLight))
+                colors = IconButtonDefaults.iconButtonColors(containerColor = if(approve) colorResource(R.color.accent) else colorResource(R.color.veryLight))
             ) {
+
                 Icon(
                     painter = painterResource(id = R.drawable.check),
-                    contentDescription = "Назад", modifier = Modifier.size(80.dp),
+                    contentDescription = "Назад", modifier = Modifier.size(20.dp),
                     tint = Color.DarkGray
                 )
             }
             Text(
-                text = "Восстановить",
-                modifier = Modifier.fillMaxWidth(1f).padding(0.dp, 0.dp, 20.dp, 0.dp),
+                text = "Даю согласие на обработку персональных данных",
+                modifier = Modifier.fillMaxWidth(1f).padding(7.dp, 0.dp, 20.dp, 0.dp),
                 fontWeight = FontWeight.W200,
-                textAlign = TextAlign.Right,
-                fontSize = 12.sp
+                textDecoration = TextDecoration.Underline,
+                textAlign = TextAlign.Left,
+                fontSize = 16.sp
             )
         }
         Spacer(Modifier.height(15.dp))
@@ -214,7 +218,7 @@ fun SignUp(navHost: NavHostController) {
                 containerColor = colorResource(R.color.accent)
             )
         ){ Text("Зарегистрироваться", fontSize = 17.sp) }
-        //Spacer(Modifier.height(155.dp))
+        //Spacer(Modifier.height(80.dp))
         Row(horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
             Text("Есть аккаунт?", fontSize = 16.sp, fontWeight = FontWeight.W200)
             TextButton(onClick = {navHost.navigate("SignIn")}) {
