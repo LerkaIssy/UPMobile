@@ -45,12 +45,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.up.R
 
 @Composable
-fun SignIn(navHost: NavHostController)
+fun SignIn(navHost: NavHostController,signInScreenVM: SignInScreenVM = viewModel())
 {
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
