@@ -10,31 +10,25 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardColors
-import androidx.compose.material3.CardElevation
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -49,14 +43,13 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.up.Presentation.Screens.SignIn.SignIn
 import com.example.up.R
 
 
 @Composable
 // navHost: NavHostController:  Объект для навигации между экранами.
 // signUpViewModel: SignUpScreenVM = viewModel() :  ViewModel, управляющий состоянием и логикой экрана регистрации пользователя.
-fun MainPage(navHost: NavHostController) {
+fun MainPage(navHost: NavHostController,MainPageVM: MainPageVM = viewModel()) {
     Column(modifier = Modifier.fillMaxSize(1f).background(colorResource(R.color.background)), horizontalAlignment = Alignment.CenterHorizontally) {
         Row(verticalAlignment = Alignment.CenterVertically,horizontalArrangement = Arrangement.SpaceBetween){
             IconButton(onClick = {  },
@@ -114,7 +107,33 @@ modifier = Modifier.padding(0.dp,0.dp,10.dp,0.dp),
                     contentDescription = "Корзина", modifier = Modifier.size(30.dp), tint = Color.White)
             }
         }
+        MainPageVM.CategoryList()
+        var select by remember { mutableStateOf(false) }
         Text(text="Категории", modifier = Modifier.fillMaxWidth(1f).padding(30.dp, 0.dp,0.dp,10.dp), fontWeight = FontWeight.W400, textAlign=TextAlign.Left, fontSize = 20.sp)
+Row{
+    Button({}, modifier = Modifier.padding(20.dp,8.dp).size(110.dp,45.dp),shape = RoundedCornerShape(15.dp),
+       
+        colors = ButtonDefaults.buttonColors(
+            containerColor = colorResource(R.color.white))
+    ) {
+        Text("Все", color = Color.Black,fontSize = 16.sp, fontWeight = FontWeight.W200)
+    }
+    LazyRow(modifier = Modifier.fillMaxWidth(1f)) {
+
+        items(MainPageVM.categories, key={categories->categories.id},)
+        {
+
+                categories->
+            Button({}, modifier = Modifier.padding(20.dp,8.dp).size(110.dp,45.dp),shape = RoundedCornerShape(15.dp),
+
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = colorResource(R.color.white))
+            ) {
+                Text(categories.title, color = Color.Black,fontSize = 16.sp, fontWeight = FontWeight.W200)
+            }
+        }
+    }
+}
 
 
     }
