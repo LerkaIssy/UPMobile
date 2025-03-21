@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.up.Presentation.Screens.Catalog.Catalog
 import com.example.up.Presentation.Screens.MainPage.MainPage
 import com.example.up.Presentation.Screens.SignIn.SignIn
 import com.example.up.Presentation.Screens.SignUp.SignUp
@@ -34,6 +35,9 @@ fun Navigation()
         }
         composable("MainPage") {
             MainPage(navController)
+        }
+        composable("Catalog") {
+            Catalog(navController)
         }
     }
 }

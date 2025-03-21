@@ -57,7 +57,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.android.volley.toolbox.ImageRequest
 import com.example.up.R
 
-
+public var id: String = ""
 @Composable
 // navHost: NavHostController:  Объект для навигации между экранами.
 // signUpViewModel: SignUpScreenVM = viewModel() :  ViewModel, управляющий состоянием и логикой экрана регистрации пользователя.
@@ -160,7 +160,8 @@ fun MainPage(navHost: NavHostController,MainPageVM: MainPageVM = viewModel()) {
         )
         Row {
             Button(
-                {},
+                {navHost.navigate("Catalog")
+                id="все"},
                 modifier = Modifier.padding(20.dp, 8.dp).size(110.dp, 45.dp),
                 shape = RoundedCornerShape(15.dp),
 
@@ -177,7 +178,8 @@ fun MainPage(navHost: NavHostController,MainPageVM: MainPageVM = viewModel()) {
 
                         categories ->
                     Button(
-                        {},
+                        {navHost.navigate("Catalog")
+                            id=categories.id},
                         modifier = Modifier.padding(20.dp, 8.dp).size(110.dp, 45.dp),
                         shape = RoundedCornerShape(15.dp),
 
